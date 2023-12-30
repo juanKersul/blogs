@@ -24,21 +24,18 @@ const mostBlogs = (blogs) => {
   );
   return { [result.maxAuthor]: result.countByAuthor[result.maxAuthor] };
 };
+
 const mostLikes = (blogs) => {
   const blogsCopy = lodash.cloneDeep(blogs);
   const result = blogsCopy.reduce(
     (acc, blog) => {
       acc.likesByAuthor[blog.author] =
         (acc.likesByAuthor[blog.author] || 0) + blog.likes;
-      acc.maxAuthor =
-        acc.maxAuthor > acc.likesByAuthor[blog.author]
-          ? acc.maxAuthor
-          : { [blog.author]: acc.likesByAuthor[blog.author] };
+      acc.maxAuthor = acc.likesByAuthor[acc.maxAuthor] > acc.likesByAuthor[blog.author] ? acc.maxAuthor : blog.author;
       return acc;
     },
     { likesByAuthor: {}, maxAuthor: "" }
   );
-  console.log(result);
   return { [result.maxAuthor]: result.likesByAuthor[result.maxAuthor] };
 };
 
